@@ -58,6 +58,8 @@ Feel free to fork, contribute, and make it your own.
 We welcome contributions!  
 Feel free to open issues or submit pull requests for improvements, new examples, or translations.
 
+Please check out our [Contribution Guidelines](./CONTRIBUTING.md) for details on how to get started.
+
 ---
 
 ## 🙌 Stay Updated
