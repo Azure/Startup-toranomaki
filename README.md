@@ -1,5 +1,5 @@
 # 🐯 Startup toranomaki – The Ultimate Startup Survival Guide for Azure & AI
-![image](https://github.com/user-attachments/assets/614d7a71-6d9b-43a7-bab3-9886fcb26371)
+<img src="https://github.com/user-attachments/assets/614d7a71-6d9b-43a7-bab3-9886fcb26371" alt="image" width="400" />
 
 > A practical, hands-on collection of resources for startups to make the most of Microsoft Azure and AI technologies.
 
