@@ -14,6 +14,7 @@
 - [Contribute](#-contribute)
 - [Stay Updated](#-stay-updated)
 - [Localization (日本語)](./Localization/ja_jp/README.md)
+- [Localization (中文)](./Localization/zh_cn/README.md)
 
 ---
 
