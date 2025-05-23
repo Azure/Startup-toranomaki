@@ -12,4 +12,9 @@ Below is a list of common questions and troubleshooting topics for Azure and Azu
 
 ---
 
+> **Disclaimer:**
+> This FAQ and all related documentation are provided as community resources. While we strive for accuracy, information may become outdated or incomplete. Always refer to official Microsoft Azure documentation for the latest guidance and support. This project is not officially endorsed by Microsoft.
+
+---
+
 Add more FAQ files to this folder as needed. Each file should address a single question or topic for clarity and maintainability.
