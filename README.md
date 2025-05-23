@@ -56,7 +56,7 @@ Feel free to fork, contribute, and make it your own.
 ## 📨 Contribute
 
 We welcome contributions!  
-Feel free to open issues or submit pull requests for improvements, new examples, or translations.
+Please check our [Contributing Guidelines](CONTRIBUTING.md) for details on how to submit issues, pull requests, and contribute content or translations.
 
 ---
 
