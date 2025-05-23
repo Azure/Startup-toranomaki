@@ -5,6 +5,18 @@
 
 ---
 
+## 🗂️ Table of Contents
+
+- [Overview](#-overview)
+- [Who Is This For?](#-who-is-this-for)
+- [What’s Inside](#-whats-insidetbd)
+- [License](#-license)
+- [Contribute](#-contribute)
+- [Stay Updated](#-stay-updated)
+- [Localization (日本語)](./Localization/ja_jp/README.md)
+
+---
+
 ## 📘 Overview
 
 **Startup toranomaki** is a curated repository that serves as a digital *“Scroll of Wisdom”* for startups. It brings together best practices, working examples, and actionable insights on how to leverage Microsoft Azure and AI tools to accelerate your product development, scale efficiently, and build smarter solutions.
