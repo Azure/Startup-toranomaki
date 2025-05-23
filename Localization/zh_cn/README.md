@@ -58,8 +58,3 @@
 
 关注本仓库或加星以获取最新内容。
 
----
-
-## 🌏 本地化
-
-- [中文文档（zh-cn）](./Localization/zh_cn/README.md)
