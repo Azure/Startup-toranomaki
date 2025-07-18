@@ -28,7 +28,7 @@ jobs:
 
     - name: Get changed files in docs
       id: changed-files
-      uses: tj-actions/changed-files@v44
+      uses: tj-actions/changed-files@v46
       with:
         files: docs/**
         separator: ','
