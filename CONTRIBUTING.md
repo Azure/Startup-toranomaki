@@ -65,6 +65,8 @@ If you want to improve existing documentation:
 
 If you want to help with localization:
 
+> **Important:** For i18n content, since we perform automatic translation, please add main content in English.
+
 1. Check the existing localized content in the `Localization` directory.
 2. If you're adding new localized content, ensure it follows the same structure as the English version.
 3. If you're improving existing localized content, make sure it remains consistent with the English version.
