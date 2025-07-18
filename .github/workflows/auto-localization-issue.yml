@@ -1,0 +1,144 @@
+name: Auto Localization Issue Creator
+
+# This workflow automatically creates localization issues when docs/ files are changed
+# It creates separate issues for Japanese (ja_jp) and Chinese (zh_cn) translations
+# and assigns them to Copilot with appropriate labels
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'docs/**'
+  pull_request:
+    branches: [ main ]
+    paths: 
+      - 'docs/**'
+    types: [ closed ]
+
+jobs:
+  check-docs-changes:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+
+    - name: Get changed files in docs
+      id: changed-files
+      uses: tj-actions/changed-files@v44
+      with:
+        files: docs/**
+        separator: ','
+
+    - name: Display changed files
+      if: steps.changed-files.outputs.any_changed == 'true'
+      run: |
+        echo "Changed files in docs:"
+        echo "${{ steps.changed-files.outputs.all_changed_files }}"
+
+    - name: Create localization issues
+      if: steps.changed-files.outputs.any_changed == 'true'
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const changedFiles = '${{ steps.changed-files.outputs.all_changed_files }}'.split(',');
+          const owner = context.repo.owner;
+          const repo = context.repo.repo;
+          
+          // Target languages for localization
+          const languages = [
+            { code: 'ja_jp', name: 'Japanese', flag: '🇯🇵' },
+            { code: 'zh_cn', name: 'Chinese', flag: '🇨🇳' }
+          ];
+          
+          for (const file of changedFiles) {
+            if (file.trim() === '') continue;
+            
+            const fileName = file.replace('docs/', '');
+            const commitSha = context.sha;
+            const commitUrl = `https://github.com/${owner}/${repo}/commit/${commitSha}`;
+            
+            for (const lang of languages) {
+              const targetPath = `Localization/${lang.code}/docs/${fileName}`;
+              
+              // Issue title
+              const title = `${lang.flag} Localization: ${fileName} (${lang.name})`;
+              
+              // Issue body
+              const body = [
+                '## 📝 Localization Request',
+                '',
+                '**Source File:** `' + file + '`',
+                '**Target Path:** `' + targetPath + '`',
+                '**Language:** ' + lang.name + ' (' + lang.code + ')',
+                '**Commit:** [' + commitSha.substring(0, 7) + '](' + commitUrl + ')',
+                '',
+                '### 📋 Tasks',
+                '- [ ] Review the source file content',
+                '- [ ] Translate to ' + lang.name,
+                '- [ ] Place in target path',
+                '- [ ] Review and proofread',
+                '',
+                '### 🎯 Translation Guidelines',
+                '- Translate technical terms appropriately, include original terms when necessary',
+                '- Use clear expressions suitable for startups',
+                '- Maintain Markdown formatting',
+                '- Do not modify links or code blocks',
+                '',
+                '### 📎 Related Files',
+                '- Source File: [`' + file + '`](https://github.com/' + owner + '/' + repo + '/blob/' + commitSha + '/' + file + ')',
+                '- Target: `' + targetPath + '`',
+                '',
+                '---',
+                '*This Issue was automatically generated. Please contact maintainers if you have questions.*'
+              ].join('\\n');
+
+              try {
+                // Issueを作成
+                const issue = await github.rest.issues.create({
+                  owner: owner,
+                  repo: repo,
+                  title: title,
+                  body: body,
+                  labels: ['localization', 'lang:' + lang.code, 'auto-generated'],
+                  assignees: ['copilot'] // Assign to Copilot
+                });
+                
+                console.log('Created issue #' + issue.data.number + ': ' + title);
+                
+                // Add additional label for Japanese files
+                if (lang.code === 'ja_jp') {
+                  await github.rest.issues.addLabels({
+                    owner: owner,
+                    repo: repo,
+                    issue_number: issue.data.number,
+                    labels: ['japanese']
+                  });
+                }
+                
+                // Add additional label for Chinese files
+                if (lang.code === 'zh_cn') {
+                  await github.rest.issues.addLabels({
+                    owner: owner,
+                    repo: repo,
+                    issue_number: issue.data.number,
+                    labels: ['chinese']
+                  });
+                }
+                
+              } catch (error) {
+                console.error('Error creating issue for ' + file + ' (' + lang.code + '):', error);
+              }
+            }
+          }
+
+    - name: Summary comment
+      if: steps.changed-files.outputs.any_changed == 'true'
+      run: |
+        echo "✅ Localization issues created successfully"
+        echo "Changed files count: ${{ steps.changed-files.outputs.all_changed_files_count }}"
+        echo "Target languages: Japanese (ja_jp), Chinese (zh_cn)"
