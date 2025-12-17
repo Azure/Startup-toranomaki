@@ -23,7 +23,7 @@
 - **IaC 示例（Bicep）：**
 
 ```bicep
-resource app 'Microsoft.Web/sites@2022-03-01' = {
+resource app 'Microsoft.Web/sites@2025-03-01' = {
   name: 'myapp'
   location: resourceGroup().location
   kind: 'app'
