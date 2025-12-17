@@ -37,7 +37,7 @@ from openai import AzureOpenAI
 # Initialize the client
 client = AzureOpenAI(
     api_key=os.getenv("AZURE_OPENAI_KEY"),
-    api_version="2024-02-01",
+    api_version="2024-10-21",
     azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
 )
 
@@ -62,7 +62,7 @@ const { OpenAI } = require('openai');
 const openai = new OpenAI({
   apiKey: process.env.AZURE_OPENAI_KEY,
   baseURL: `${process.env.AZURE_OPENAI_ENDPOINT}/openai/deployments/gpt-35-turbo-deployment`,
-  defaultQuery: { 'api-version': '2024-02-01' },
+  defaultQuery: { 'api-version': '2024-10-21' },
   defaultHeaders: {
     'api-key': process.env.AZURE_OPENAI_KEY,
   },
@@ -295,7 +295,7 @@ from azure.ai.openai import AzureOpenAI
 def main(req: func.HttpRequest) -> func.HttpResponse:
     client = AzureOpenAI(
         api_key=os.environ["AZURE_OPENAI_KEY"],
-        api_version="2024-02-01",
+        api_version="2024-10-21",
         azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"]
     )
     
@@ -438,7 +438,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # Initialize Azure OpenAI client
         client = AzureOpenAI(
             api_key=os.environ["AZURE_OPENAI_KEY"],
-            api_version="2024-02-01",
+            api_version="2024-10-21",
             azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"]
         )
 

@@ -15,17 +15,22 @@
 ### 1.2 API 使用示例（Python）
 
 ```python
-import openai
-openai.api_type = "azure"
-openai.api_base = "<your-endpoint>"
-openai.api_key = "<your-key>"
-openai.api_version = "2023-05-15"
+import os
+from openai import AzureOpenAI
 
-response = openai.ChatCompletion.create(
-  engine="gpt-35-turbo",
-  messages=[{"role": "user", "content": "你好！"}]
+# 初始化客户端
+client = AzureOpenAI(
+    api_key=os.getenv("AZURE_OPENAI_KEY"),
+    api_version="2024-10-21",
+    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
 )
-print(response.choices[0].message["content"])
+
+# 聊天完成
+response = client.chat.completions.create(
+    model="gpt-35-turbo",  # 您的部署名称
+    messages=[{"role": "user", "content": "你好！"}]
+)
+print(response.choices[0].message.content)
 ```
 
 ### 1.3 价格、配额与最佳实践
@@ -93,25 +98,29 @@ curl -X POST "https://<your-endpoint>/vision/v3.2/analyze" \
 
 ```python
 import os
-import openai
+import json
 import azure.functions as func
+from azure.ai.openai import AzureOpenAI
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     prompt = req.params.get('prompt')
     if not prompt:
         return func.HttpResponse("Missing prompt", status_code=400)
 
-    openai.api_type = "azure"
-    openai.api_base = os.environ["AZURE_OPENAI_ENDPOINT"]
-    openai.api_key = os.environ["AZURE_OPENAI_KEY"]
-    openai.api_version = "2023-05-15"
-    deployment = os.environ["AZURE_OPENAI_DEPLOYMENT"]
+    # 初始化 Azure OpenAI 客户端
+    client = AzureOpenAI(
+        api_key=os.environ["AZURE_OPENAI_KEY"],
+        api_version="2024-10-21",
+        azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"]
+    )
 
-    response = openai.ChatCompletion.create(
-        engine=deployment,
+    # 创建聊天完成
+    response = client.chat.completions.create(
+        model=os.environ["AZURE_OPENAI_DEPLOYMENT"],
         messages=[{"role": "user", "content": prompt}]
     )
-    return func.HttpResponse(response.choices[0].message["content"])
+    
+    return func.HttpResponse(response.choices[0].message.content)
 ```
 
 - 请在 Function App 的环境变量中设置：
